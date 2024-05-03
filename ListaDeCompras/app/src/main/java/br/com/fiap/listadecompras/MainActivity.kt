@@ -30,11 +30,21 @@ class MainActivity : ComponentActivity() {
 
         //Ouvir eventos esperando o clique
         button.setOnClickListener {
+
+            if (editText.text.isEmpty()) {
+                editText.error = "Preencha um valor"
+                return@setOnClickListener //Mantém o estado da activity sem precisar resetar (@método)
+            }
+
             val item = ItemModel(
-                name = editText.text.toString() //converte o objeto para String
+                name = editText.text.toString(), //Converte o objeto (editText) para String
+                onRemove = {
+                    itemsAdapter.removeItem(it)
+                }
             )
 
             itemsAdapter.addItem(item)
+            editText.text.clear()
         }
     }
 }
