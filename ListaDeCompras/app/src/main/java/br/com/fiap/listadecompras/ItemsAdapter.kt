@@ -13,13 +13,13 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
 
     fun addItem(newItem: ItemModel) {
         items.add(newItem)
-        notifyDataSetChanged() //função do adapter: constroi, exibe e
+        notifyDataSetChanged() //função do adapter: constrói, exibe e controla, fazendo o papel de ponte entre os dados e a vizualização
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return ItemViewHolder(view)
-    }
+    } //injeta os dados dentro do item_layout
 
     fun removeItem(item: ItemModel) {
         items.remove(item)

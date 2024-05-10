@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 return@setOnClickListener //Mantém o estado da activity sem precisar resetar (@método)
             }
 
-            val item = ItemModel(
+            val item = ItemModel( //IteModel representa os dados da minha lista
                 name = editText.text.toString(), //Converte o objeto (editText) para String
                 onRemove = {
                     itemsAdapter.removeItem(it)

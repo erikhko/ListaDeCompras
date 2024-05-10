@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nome do produto" />
-    //devolve um objeto
 
     <Button
         android:id="@+id/button"
