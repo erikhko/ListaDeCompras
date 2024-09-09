@@ -1,47 +1,52 @@
 package br.com.fiap.listadecompras
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import br.com.fiap.listadecompras.ui.theme.ListaDeComprasTheme
+import android.widget.Button
+import android.widget.EditText
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    val viewModel: ItemsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ListaDeComprasTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+
+        setContentView(R.layout.activity_main)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Lista de Compras"
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val itemsAdapter = ItemsAdapter()
+        recyclerView.adapter = itemsAdapter
+
+        val button = findViewById<Button>(R.id.button)
+        val editText = findViewById<EditText>(R.id.editText)
+
+        button.setOnClickListener {
+            if (editText.text.isEmpty()) {
+                editText.error = "Preencha um valor"
+                return@setOnClickListener
             }
+
+            viewModel.addItem(editText.text.toString())
+
+            editText.text.clear()
+
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ListaDeComprasTheme {
-        Greeting("Android")
+        /**
+         * Observa as alterações na lista de itens na ViewModel.
+         * Quando a lista de itens é alterada, atualiza o ItemsAdapter com a nova lista.
+         */
+        viewModel.itemsLiveData.observe(this) {
+                items -> itemsAdapter.updateItems(items)
+        }
     }
 }
