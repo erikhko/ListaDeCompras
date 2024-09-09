@@ -1,5 +1,6 @@
 package br.com.fiap.listadecompras
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -15,7 +16,7 @@ import androidx.lifecycle.ViewModel
  * @version 1.0
  * @since 05/08/2021
  */
-class ItemsViewModel : ViewModel() {
+class ItemsViewModel(application: Application) : ViewModel() {
 
     /**
      * Uma lista mutável de ItemModel. Esta lista é privada e só pode ser modificada através dos métodos addItem e removeItem.

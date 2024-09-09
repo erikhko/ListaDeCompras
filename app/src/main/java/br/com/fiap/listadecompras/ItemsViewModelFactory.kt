@@ -1,7 +1,5 @@
 package br.com.fiap.listadecompras;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
