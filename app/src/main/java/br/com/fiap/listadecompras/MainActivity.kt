@@ -3,14 +3,14 @@ package br.com.fiap.listadecompras
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    val viewModel: ItemsViewModel by viewModels()
+    private lateinit var viewModel: ItemsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "Lista de Compras"
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val itemsAdapter = ItemsAdapter()
+        val itemsAdapter = ItemsAdapter { item ->
+            viewModel.removeItem(item)
+        }
         recyclerView.adapter = itemsAdapter
 
         val button = findViewById<Button>(R.id.button)
@@ -41,12 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        /**
-         * Observa as alterações na lista de itens na ViewModel.
-         * Quando a lista de itens é alterada, atualiza o ItemsAdapter com a nova lista.
-         */
-        viewModel.itemsLiveData.observe(this) {
-                items -> itemsAdapter.updateItems(items)
+        val viewModelFactory = ItemsViewModelFactory(application)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ItemsViewModel::class.java)
+
+        viewModel.itemsLiveData.observe(this) { items ->
+            itemsAdapter.updateItems(items)
         }
     }
 }
