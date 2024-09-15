@@ -38,14 +38,6 @@ class ItemsAdapter(private val onItemRemoved: (ItemModel) -> Unit) :
         holder.bind(item)
     }
 
-    /**
-     * Método que adiciona um novo item à lista e notifica o RecyclerView que os dados foram alterados.
-     * @param newItem O item a ser adicionado.
-     * Adiciona o item à lista de itens e chama o método notifyDataSetChanged para atualizar a visualização.
-     * Método que atualiza a lista de itens e notifica o RecyclerView que os dados foram alterados.
-     * @param newItems A nova lista de itens a ser exibida.
-     * Atualiza a lista de itens e chama o método notifyDataSetChanged para atualizar a visualização.
-     */
     fun updateItems(newItems: List<ItemModel>) {
         items = newItems
         notifyDataSetChanged()
